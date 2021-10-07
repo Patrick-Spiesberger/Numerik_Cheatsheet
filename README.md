@@ -7,5 +7,5 @@ Ich würde im Sinne Anderer darum bitten, Änderungen auf GitHub vorzuschlagen, 
 
 In diesem Sinne viel Erfolg bei der Klausur!
 
-Vorlage: https://github.com/tim-st/latex-cheatsheet
+Vorlage: https://github.com/tim-st/latex-cheatsheet <br>
 Vielen Dank für die bisherigen Mithilfe, Verbesserungsvorschläge, Kritik und Lob :)
