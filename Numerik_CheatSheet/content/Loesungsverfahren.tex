@@ -1,0 +1,113 @@
+\section{Lösungsverfahren}
+Finde x, sodass $Ax = b$, wobei $A \in \mathbb{R}^{NxN}$\\
+$x = A^{-1}b \rightarrow$ teuer\\
+Falls Matrix nicht regulär $\rightarrow$ keine oder inf. Lösungen. A regulär $\leftrightarrow$ det(A) $\neq$ 0\\
+Es gilt: det(A) = det(L) * det(R)
+\subsection{LR-Zerlegung}
+1) \textbf{Zerlegung}: $A = LR$ ($\approx \frac{N^3}{3}$)\\
+2) \mbox{\textbf{Vorwärtssubstitution}: $Ly = b$} ($\approx \frac{N^2}{2}$)\\
+3) \mbox{\textbf{Rückwärtssubstitution}: $Rx = y$ ($\approx \frac{N^2}{2}$)}\\
+\textbf{Begründung}: $Ax = LRx = Ly = b$\\
+Eine LR-Zerlegung existiert $\leftrightarrow$ Jede Teilmatrix ($A_{[1:n,1:n]}$) ist regulär (eindeutig)\\
+\textbf{Vorgehensweise}: Matrix gaußen, Gaußschritte mit \textbf{umgekehrtem} Vorzeichen an der jeweiligen Stelle speichern.\\
+\textbf{L}: Diagonale = 1, untere DEM = Gauß\\
+\textbf{R}: untere DEM = 0, Rest = Gauß-Matrix\\
+\mbox{\textbf{Permutation}: $A$ regulär $\leftrightarrow PA = LR$}\\
+\mbox{$PA = LR \Rightarrow A^TP^T = R^TL^T$, $b = R^TL^T(Px)$}\\
+$A = LR$ existiert nicht immer, $PA = LR$ schon falls \textbf{A invertierbar} ist.\\
+$Ax = b \Leftrightarrow PAx = Pb \Leftrightarrow LRx = Ly = Pb$\\
+\textbf{Spaltenpivotwahl} immer machen, Betragsmäßig größtes Element kommt nach oben, bei Gleichheit egal
+
+\subsection{Cholesky-Zerlegung}
+A ist spd-Matrix $\Leftrightarrow$ Cholesky Z. existiert\\
+\textbf{Aufwand}: $\sum_{n=1}^{N-1}\frac{n^2}{2} \approx \frac{N^3}{6}$ Operationen\\
+1) \textbf{Zerlegung}: $A = LL^T$\\
+2) \textbf{VWS}: $Ly = b$, 
+3) \textbf{RWS}: $L^Tx = y$\\
+$A^T = (LL^T)^T = (L^T)^TL^T = LL^T = A$\\
+\mbox{$x^TAx = x^TLL^Tx = (L^Tx)^TL^Tx = y^Ty > 0$}\\
+Für eine 4x4-Matrix gilt:\\
+$l_{11} = \sqrt{a_{11}}$ \textbf{;} $l_{21} = \frac{a_{21}}{l_{11}}$, $l_{22} = \sqrt{a_{22} - l^2_{21}}$ \textbf{;}\\
+$l_{31} = \frac{a_{31}}{l_{11}}$, $l_{32} = \frac{a_{32}-l_{31}l_{21}}{l_{22}}$,\\ $l_{33} = \sqrt{a_{33} - (l^2_{31} + l^2_{32})}$ \textbf{;}\\
+$l_{41} = \frac{a_{41}}{l_{11}}$,
+$l_{42} = \frac{a_{42}-l_{41}l_{21}}{l_{22}}$,\\
+$l_{43} = \frac{a_{43}-l_{41}l_{31} + l_{42}l_{32}}{l_{33}}$,\\ $l_{44} = \sqrt{a_{44} - (l^2_{41} + l^2_{42} + l^2_{43})}$\\
+\textbf{Tipp}: Bandstruktur bleibt erhalten
+\subsection{QR-Zerlegung} 
+Sei A eine MxN Matrix $\Leftrightarrow A = QR$, wobei $Q \in \mathbb{R}^{MxM}$ orthogonal ($QQ^T = I_M$) und  $R \in \mathbb{R}^{NxN}$ eine obere Dreiecksmatrix.\\
+1) \textbf{Householder-Trans}: $A = QR$\\
+2) \textbf{Löse}: $Qc = b$ durch $c = Q^Tb$\\
+3) \textbf{Rückwärtssubstitution}: $Rx = c$\\
+\textbf{Begründung}: $Ax = QRx = Qc = b$\\
+\mbox{\textbf{Eigenschaften}: stabil, $\frac{2}{3}N^3$ wenn $M \approx N$}\\
+$Q = I_M - 2ww^T$ wobei $w \in \mathbb{R}^M$, $w^Tw = 1$\\
+Q ist sym. da $Q^T = I_M^T - (2ww^T)^T = Q$,
+orthogonal da $QQ^T = Q^2 = I_M -4ww^T + 4w * 1 * w^T = I_M (w^Tw = 1)$, Spiegelung da $Q\lambda w = -\lambda w$ für $w^Ty = 0 \rightarrow Qy = y$\\
+\textbf{Ziel}: $H^{(k)}*...*H^{(1)}*A = R$, wobei $H^{(n)}$ orthogonal\\
+\textbf{Schritte}: $v^{(1)} = q_1 + sgn(a_{11}) * ||a_1|| * e_1$\\
+$H^{(1)} = H^{(0)} = I - \frac{2v^{(1)}v^{(1)^T}}{v^{(1)^T}v^{(1)}}$\\
+$A^{(1)} = H^{(1)}*A$\\
+Erste Zeile und Spalte streichen\\
+$H^{(2)}$ in der ersten Zeile und Spalte um $e_1$ erweitern\\
+$H^{(2)} = H^{(2)}A^{(1)}$ ... Für R: (m-1) mal\\
+$Q^T = H^{(2)}H^{(1)} \rightarrow Q = (Q^T)^T$ 
+
+\subsection{Kondition}
+Empfindlichkeit von Matrix-Störungen\\
+Sei $A \in \mathbb{R}^{NxN}$ nachfolgend regulär:\\
+\textbf{zugehörige Norm}: $||A|| := sup\frac{||Ax||}{||x||}$, $x \neq 0$\\
+Es gilt: $||I_N|| = 1$ und $||AB|| \leq ||A|| * ||B||$\\
+\mbox{\textbf{SSN}: $||A||_1 = \underset{m = 1,...,N}{max}\sum_{n=1}^N|a_{nm}|$}\\
+\mbox{\textbf{Spektral}: $||A||_2 = \sqrt{\text{größter EW von } A^TA}$}\\
+\mbox{\textbf{ZSN}: $||A||_{\infty} = \underset{n=1,...,N}{max}\sum_{m=1}^N|a_{nm}|$}\\
+${||x - \widetilde{x}}|| = ||A^{-1}(b - \widetilde{b})|| \leq ||A^{-1}|| * ||b-\widetilde{b}||$: (absoluter Fehler), (relativer Fehler):\\
+$\frac{||x - \widetilde{x}||}{||x||} \leq ||A||*||A^{-1}||*\frac{||b-\widetilde{b}||}{||b||}$\\
+\textbf{Konditionszahl}: $cond(A) := ||A||*||A^{-1}||$\\
+\textbf{Eigenschaften}: $1 \leq cond(A)$, $cond(A) = \\cond(\alpha A)$, mit \mbox{$\alpha \neq 0$, $cond(A) = cond(A^{-1})$}\\
+$cond(A) = \frac{max_{||y|| = 1}||Ay||}{min_{||z|| = 1}||Az||}$ (allg. Definition)\\
+Matrizen $B^TB$ wobei B beliebig:\\
+- sind spezielle sym. Matrizen\\
+- haben nur nichtnegative (inkl. 0) EW\\
+- nur positive EW falls B maximaler Rang\\
+- besitzen EW $\lambda^2$ falls B sym. mit EW $\lambda$\\
+$\Rightarrow cond_2(A) = \frac{max\{|\lambda|:\; \lambda \text{ EW von A}\}}{min\{|\lambda|:\; \lambda \text{ EW von A}\}}$\\
+\mbox{Sei $\frac{||A-\widetilde{A}||}{||A||} \leq \epsilon_A$ und $\frac{||b-\widetilde{b}||}{||b||} \leq \epsilon_b$, dann gilt:}\\
+\mbox{$\frac{||x-\widetilde{x}||}{||x||} \leq \frac{cond(A) * (\epsilon_A + \epsilon_b)}{1-\epsilon_A * cond(A)}$, $\epsilon_A * cond(A) < 1$}\\ 
+\textbf{gute Kondition}: $I_n$ ($cond(A)_2$ = 1),\\ $||\text{orthogonale Matrizen}||_2 = 1$, Spline-\\ \mbox{Interpol., $cond(A)$ klein $\Rightarrow$ LGS gut kond.}\\
+\textbf{schlechte Kondition}: Hilbertmatrix, \mbox{Diagonalmatrix* ($cond_2(A) = \frac{max.\; EW}{min.\; EW}$)}
+
+\mbox{\textbf{Neumann-Reihe}: $(I_n + B)^{-1} = \sum_{k=0}^\infty (-B)^k$}
+
+\subsection{Ausgleichsrechnung}
+$x$ gesucht, sodass $||Ax-b||_2 = min!$ mit $A \in \mathbb{R}^{MxN}$
+Falls $M=N$ gilt: $||Ax-b||_2 = 0 = min! \;(Ax = b)$\\
+\textbf{Satz von Gauß}: Der Vektor x löst genau dann das lineare AGP, falls er \mbox{$A^TAx = A^Tb$ löst (Normalengleichung}\\
+NG immer lösbar falls $Rang(A) = max$, da $A^Tb \in Bild(A^T) = Kern(A)^{\bot} = Kern(A^TA)^{\bot} = Bild(A^TA)$, in $N^2 + \frac{1}{2}N^2$\\
+Sei $A \in \mathbb{R}^{MxN}$ mit $M \geq N$ und $Q, R$ die QR-Zerlegung, also $Q^TA = R = \begin{pmatrix} \overline{R} \\ 0 \end{pmatrix}$, dann ist $x = \overline{R}^{-1}c$ die Lsg. des AGPs, wobei $Q^Tb = \begin{pmatrix} c \\ d \end{pmatrix}$, \textbf{Householder: $A = QR$,
+\textbf{Löse}: $Q^Tb = \begin{pmatrix} c \\ d \end{pmatrix}$}, \textbf{RWS}: $\overline{R}x = c$
+\subsection{Singulärwertzerlegung}
+Sei $A \in \mathbb{R}^{MxN}$ mit Rang $r$,
+\textbf{Zerlegung}: $A = U * \Sigma * V^T$, wobei $U \in \mathbb{R}^{MxM}$ und $V \in \mathbb{R}^{NxN}$ orthogonal,  $\Sigma \in \mathbb{R}^{MxN}$ mit Singulärwerten ($s_n \geq ... \geq s_r > 0$)\\
+\begin{onehalfspace}$AA^T = U\Sigma V^TV\Sigma^TU^T = U\Sigma \Sigma^TU^T$ und\\
+$A^TA = V\Sigma^TU^TU\Sigma V^T = V\Sigma^T \Sigma V^T$
+\end{onehalfspace}
+\textbf{Beispiel $U' = A*A^T$, $V' = A^T*A$}:
+\[ A = \left( \begin{array}{cc}
+1 & 0 \\
+0 & 1 \\
+1 & 1
+\end{array} \right)
+\rightarrow \Sigma =
+\left( \begin{array}{cc}
+s_1 & 0 \\
+0 & s_2 \\
+0 & 0
+\end{array} \right) , U' = 
+\left(\begin{array}{ccc}
+1 & 0 & 1\\
+0 & 1 & 1\\
+1 & 1 & 2
+\end{array} \right)\]
+\mbox{$\lambda_1 = 3 (s_1 = \sqrt{3})$, $\lambda_2 = 1 (s_2 = \sqrt{1})$, $\lambda_3 = 0$}\\
+Eigenräume ausrechnen, analog mit \\$V'$. V und U sind normierte Eigenräume.\\
+$||A||_{Frob} = \sqrt{Spur(A^TA)} = \sqrt{\sigma_1^2 + ... + \sigma_r^2}$

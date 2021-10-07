@@ -1,0 +1,30 @@
+\section{Eigenwertproblem}
+Ges: $v \neq 0$ und $\lambda$, wobei $A^{NxN}v = \lambda v$\\
+lösbar $\leftrightarrow Kern((A-\lambda I_n))$ nicht trivial\\
+Sei $Av = \lambda v$, $u^TA = \lambda u^T$, $||u|| = ||v|| = 1$:\\
+Konditionszahl: $\frac{1}{|u^Tv|} \geq \frac{1}{||u||_2||v||_2} = 1$
+\subsection{Vektoriteration}
+Annahme: |einfacher EW| $>$ andere EW, einf. EW: alg. VF des char. Poly. ist 1\\
+Iteration ab k = 0: $y^k = \frac{x^k}{||x^k||_2}$ mit $x^{k+1} = Ay^k$ ... konvergiert gegen norm. EV $v^1$ zum EW $\lambda_1$ wenn $x^0$ nicht senkrecht auf $span(v^1)$ steht $\rightarrow \lambda_1 = \frac{(v^1)^TAv^1}{(v^1)^Tv^1}$\\
+\textbf{Konv.-Geschwindigkeit}: $0 \leq |\frac{\lambda_{min}}{\lambda_{max}}| < 1$\\
+\textbf{Inverse Vektoriteration} Es gilt:\\ $Av = \lambda v \Leftrightarrow v = \lambda A^{-1}v \Leftrightarrow \frac{1}{\lambda}v = A^{-1}v$
+NUN: $A \in \mathbf{R}^{NxN}$ und KLEINSTER |EW| nahe, aber ungleich 0 $\leftrightarrow A^{-1}$ sym. mit selben EV $\leftrightarrow EW = \frac{1}{\lambda_n}$, $\lambda_n$ ist EW von A\\
+Iteration (\textbf{!}) k = 0: $y^k = \frac{x^k}{||x^k||_2}$, $Ax^{k+1} = y^k$
+\textbf{Jacobi}: $B = D$, $x^{k + 1} = D^{-1}*(L+U)*x^k + D^{-1}b$, 
+\textbf{Gauß-Seidel}: $B = L + D$, $x^{k+1} = (I - (D-L)^{-1}) * x^k + (D-L)^{-1}b $
+, wobei $A = L + D + R$.
+
+\subsection{QR-Algorithmus}
+Berechnung sämtlicher EW von $A^{\mathbf{R}x\mathbf{R}}$\\
+\textbf{Algorithmus}: 1) Setze $A_0 = A$ und $k = 0$\\
+2) Zerlege $A_k = Q_kR_k$ (QR-Zerlegung)\\
+3) Berechne $A_{k+1} = R_kQ_k$, \\
+\hspace*{4mm}erhöhe $k$ und gehe zu Schnitt 2)\\
+$A_{k+1} = R_kQ_k = Q_k^TQ_kR_kQ_k = Q_k^TA_kQ_k$
+$\Rightarrow (A_{k+1}$ ähnlich zu $A_k) \Rightarrow$ (ähnlich zu $A$ für alle $k) \Rightarrow (A_k \rightarrow R$ für $k \rightarrow \infty)$\\
+\mbox{\textbf{Aufwand}: $\mathcal{O}(n^3)$, Hessenbergform: $\mathcal{O}(n^2)$}
+\mbox{\textbf{Konvergenz}: $\frac{|\lambda_2|}{|\lambda_1|}$, ...,  $\frac{|\lambda_N|}{|\lambda_{N-1}|} \rightarrow$ langsam}\\
+Idee: Nutze Shift $\mu_k \rightarrow$ 1) $H_0 = H$, $k = 0$\\
+2) Zerlege $H_k - \mu_kI_N = Q_kR_k$\\
+3) $H_{k+1} = R_kQ_k + \mu_kI_N$, k++, wdh. 2)
+\textbf{Hessenbergform $\frac{5}{3}N^3$}: Eine Matrix kann in $N-2$ Householder-Trans. in HBF gebracht werden: $Q^TAQ = H$ wobei $Q = Q_1 * ... * Q_{N-2}$. Ist $A \in \mathbf{R}^{2x2}$ orthogonal und $det(A) = -1$, dann ist A eine Householder-Transformation

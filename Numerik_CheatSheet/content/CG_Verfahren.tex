@@ -1,0 +1,31 @@
+\section{Iterative Verfahren für LGS}
+Effiziente Lsg. eines LGS ($Ax = b$), wobei A sehr groß und dünn besetzt\\
+\textbf{Vorkonditionierer}: $B \in \mathbf{R}^{NxN}$, regulär, $cond(B^{-1}A) < cond(A)$\\
+Es gilt: $0 = -B^{-1}Ax + B^{-1}b$\\
+\textbf{Algorithmus zur Lösung}:\\
+1) Wähle Start $x^0 \in \mathbf{R}^N$, Toleranz $\epsilon > 0$\\
+2) Setze $r^0 = b - Ax^0$, $k = 0$\\
+3) Falls $(||r^{k+1} \leq \epsilon||b||)$ STOP, ansonsten:\\
+\hspace*{5mm}$Bc^k = r^k$\\
+\hspace*{5mm}$x^{k+1} = x^k + c^k$\\
+\hspace*{5mm}$r^{k+1} = r^k - Ac^k$\\
+4) Erhöhe k um 1 und gehe zu 3)
+
+
+\subsection{cg-Verfahren}
+\textbf{Vorteile}: fehlerh. Anteile filtern, Normalengleichung einfach, Speicherplatz\\
+\textbf{Energienorm}: $||x||_A = \sqrt{x^TAx}$, x Vektor, dazugehöriges SKP: $\langle x , y \rangle = x^TAy$\\
+\mbox{\textbf{VORKONDITIONIERTER Algorithmus}:}
+1) Wähle $x^0 \in \mathbf{R}^N$, $\epsilon > 0$, $r^0 = b - Ax^0$\\
+2) \mbox{(ZUSÄTZLICH) Löse $Ms^0 = r^0$, $d^0 = s^0$}\\
+3) Falls $(||r^k|| \leq \epsilon||b||)$ STOP, sonst:\\
+\hspace*{5mm}$a_k = \langle r^k, s^k\rangle / \langle d^k, d^k\rangle_A$\\
+\hspace*{5mm}$x^{k+1} = x^k + \alpha_kd^k$\\
+\hspace*{5mm}$r^{k+1} = r^k - \alpha_kAd^k$\\
+\hspace*{5mm}(ZUSÄTZLICH) Löse $Ms^{k+1} = r^{k+1}$\\
+\hspace*{5mm}$\beta_k = \langle r^{k+1}, s^{k+1}\rangle / \langle r^k, s^k\rangle $\\
+\hspace*{5mm}$d^{k+1} = s^{k+1} + \beta_kd^k$\\
+4) Erhöhe k um 1 und gehe zu 3)\\
+\mbox{\textbf{Konvergenz}: Nach max. N Schritten exakt}
+\textbf{Fehler:} $||x_{*} - x^k||_A \leq 2*(\frac{\sqrt{c} - 1}{\sqrt{c} + 1})^k *||x_{*} - x^0||_A$, $c = cond_2(A)$, $x_{*}$ exakte Lsg, $k = 1,2, ...$
+\mbox{\textbf{Normalengleichungen}: Berechnung von} \mbox{$Ad^k$ und $A^T(Ad^k) \rightarrow$ (MMM $\rightarrow$ 2 x MVP)}

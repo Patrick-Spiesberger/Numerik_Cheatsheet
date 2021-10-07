@@ -1,0 +1,48 @@
+\section{Einführung}
+\textbf{Kriterien}: Genauigkeit, Stabilität,\\
+Effizienz, Voraussetzungen\\
+\textbf{Pi Approximation}: stabil\\
+Setze $g_{6} = 1$, $g_{2n} = g_{n} \;/ \sqrt{2 +  \sqrt{4 - g_{n}^{2}}}$\\
+Approximiere $\pi \approx \frac{ng_{n}}{2}$
+\subsection{Gleitpunktzahlen}
+Darstellung: $x = m * B^{e}$, wobei\\
+$B = Basis, e = e_{min} + \sum_{l=0}^{L_{e}-1} c_{l}B^{l}$\\
+$c_{l}, a_{l} \in \{0, ..., B-1\},\; a_{1} \neq 0$\\
+$m = 0$ oder $ m = \pm \sum_{l=1}^{L_{m}} a_{l}B^{-l} $\\
+$L_{m}$: Mantissenlänge\\
+Es gilt: $|m| \geq B^{-1}$ und $|m| < 1$\\
+\textbf{Beispiel}: $B = 2, \; 10.25 = 2^3 + 2^1 + 2^{-2}$\\
+$ = 2^4 * (1*2^{-1} + 0*2^{-2} + ... + 1*2^{-6})$\\
+Somit ist $ e = 4, a_{1} = 1, L_{m} \geq 6$\\
+Es gilt: $e_{max} = e_{min} + B^{L_e} -1$\\
+$maxFL = -minFL = B^{e_{max}}(1-B^{-L_m})$\\
+$minFL_+ = B^{e_{min}-1}$
+\subsection{Rundung}
+$x \neq 0$ mit $minFL_+ \leq |x| \leq maxFL$, $fl(x) =\\ \pm B^e\left\{
+\begin{array}{ll}
+\sum_{l=1}^{L_{m}} a_{l}B^{-l}, & a_{L_m+1} < \frac{B}{2} \\
+\sum_{l=1}^{L_{m}} a_{l}B^{-l} + B^{-L_m}, & a_{L_m+1} \geq \frac{B}{2} \\
+\end{array}
+\right. $\\
+Es gilt: $|x - fl(x)| \leq \frac{1}{2}B^{e-L_m}$, $|x| \geq B^{e-1}$\\
+eps: relative Maschinengenauigkeit\\
+eps := $\frac{|x - fl(x)|}{|x|} \leq \frac{B^{e-L_m}}{B^{e-1}} = \frac{1}{2}B^{1-L_m}$\\
+Sei x keine Gleitkommazahl, dann ist der relative Fehler zu fl(x) (gerundet) kleiner als eps: $fl(x) = x(1+\epsilon)$ mit $|\epsilon| \leq eps$\\
+IEEE: $L_m = 52, eps = 2^{-52}, e_{min} = -1022$
+
+\subsection{Arithmetik}
+$x \circ y \notin FL$ (im Allgemeinen) $\rightarrow$ erst Operation, dann runden (nicht assoziativ)
+
+\subsection{Kondition}
+Wie wirken sich Störungen der Eingabe auf die exakte (!)
+Lösung aus? \textbf{Schlecht konditioniert}: kleine Störungen haben große Auswirkungen auf die Lösung.\\
+Add/Sub gut konditioniert, falls x und y selbes Vorzeichen, schlecht falls $x \approx -y$.\\
+Relativer Fehler: $\leq \epsilon\frac{|x| + |y|}{|x+y|}$ wobei $\epsilon$ klein.\\
+Singuläre Matrizen (nicht invertierbar) sind schlecht konditioniert.
+
+\subsection{Stabilität}
+Fehler im Verfahren haben keinen deutl. größeren Einfluss als in der Eingabe.\\
+Grundoperationen $(+, -, *, /)$ sind in FL stabil.
+Für $x \approx y$ ist $-$ stabil, aber schlecht konditioniert. Algos mit schlecht kond. Teilproblemen sind instabil.\\
+$g_{2n} = \sqrt{2 -  \sqrt{4 - g_{n}^{2}}}$, instabil da $g_{n}^{2} \rightarrow 0$\\
+Algo. in Kapitel 2 stabil, da $g_{2n} \rightarrow g_n \;/\; 2$\\

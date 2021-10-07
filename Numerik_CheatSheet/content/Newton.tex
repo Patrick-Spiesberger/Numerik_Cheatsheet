@@ -1,0 +1,18 @@
+\section{Newton-Verfahren}
+Lösungsverfahren für nichtlineare GS\\
+\textbf{Gesucht x*}: $f(x^*) = 0_N$, f nichtlinear,
+$f_1(x_1^*, ..., x_N^* = 0)$, ..., $f_N(x_1^*, ..., x_N^* = 0)$\\
+\mbox{\textbf{Taylor}: $0 = f(x^*) = f(x^0) + f'(x^0)(x^* - x^0)$}\\
+\textbf{Algorithmus}:\\
+1) Wähle Startwert $x^0$ und Toleranz $\epsilon$\\
+2) Löse $f'(x^k)d^k = -f(x^k)$ (LGS,\\ LR-Zerlegung), berechne $x^{k+1} = x^k + d^k$
+3) Falls ($||d^k|| < \epsilon$): STOP, ansonsten 2)\\
+\textbf{Bemerkung}: Konv. \textbf{lokal} quadratisch\\
+Oft divergent, falls $||x^0 - x^*||$ groß\\
+\textbf{Konvergenz}: $||x^* - x^k|| \leq C||x^*-x^{k-1}||^2$, d.h. die Anzahl an Nachkommastellen verdoppelt sich ca. pro Schritt\\
+\textbf{Funktionen}: $x_{n+1} = x_n - f'(x_n)^{-1}f(x_n)$
+\subsection{Vereinfachung}
+Konstante Matrix A, sodass $A \approx f'(x^0)$, dann gilt $F(x) = x - A^{-1}f(x)$.\\
+1 x LR-Zerlegung, \textbf{linear konvergent}\\
+\textbf{Fixpunkt}: $x^{k+1} = x^k-A^{-1}f(x^k) = F(x^k)$
+

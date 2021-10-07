@@ -1,0 +1,37 @@
+\section{Integration}
+\textbf{Rechteckregel}: $I(f) \approx (b-a)f(a)$\\
+\textbf{Mittelpunkt}: $I(f) \approx (b-a)f(\frac{a+b}{2})$\\
+\textbf{Trapezregel}: $I(f) \approx (b-a)(\frac{f(a) + f(b)}{2})$\\
+\mbox{\textbf{Simpson}: $I(f) \approx \frac{b-a}{6}(f(a) + 4f(\frac{a+b}{2}) + f(b))$}\\
+- $\int_a^bf(x)dx = \int_a^cf(x)dx + \int_c^bf(x)dx$\\
+- linear: $I(\lambda f + \mu g) = \lambda I(f) + \mu I(g)$\\
+\mbox{- monoton: $f \geq g \Rightarrow \int_a^bf(x)dx \geq \int_a^bg(x)dx$}\\
+$\rightarrow |\int_a^bf(x)dx| \leq \int_a^b|f(x)|dx$ (Bsp. Sinus)
+\textbf{Kondition}: L1-Norm: $||f||_1 = I(|f|)$
+Es gilt: $\frac{|I(f) - I(\widetilde{f})|}{|(f)|} \leq \frac{||f-\widetilde{f||_1}}{||f||_1}$ mit $cond_1 := \frac{I(|f|)}{|I(f)|}$ (monoton und linear), schlecht konditioniert falls oszillierend
+\subsection{Quadraturformeln}
+$\int_a^bf(x)dx \approx (b-a)\sum_{k=1}^s b_kf(a + c_k(b-a))$, $b_k$ Gewichte und $c_k$ Knoten $\in [0,1]$\\
+linear und monoton $\leftrightarrow b_k \geq 0$, eindeutig\\
+\textbf{Ordnung}: Quad.-Formel hat Ordnung p $\leftrightarrow$ QF liefert exakte Lösung für alle Poly. mit Grad $\leq p - 1$, wobei p maximal oder \\
+(1) $\frac{1}{q} = \sum_{k=1}^sb_kc_k^{q-1}$ für alle $q = 1, ..., p$ aber nicht für $q = p + 1$ | $\updownarrow$ p mind. s \\
+\textbf{Es gilt}: (2) $\sum_{k=1}^s b_k = 1$ | $b_k = \int_0^1 L_k(x)dx$\\
+\textbf{Klausuren}: (1) und (2) überprüfen\\
+\textbf{Kondition}: schlecht, da $\sum|b_k|$, k > 8
+\subsection{sym. Quadraturformeln}
+\mbox{QF sym. $\leftrightarrow c_k = 1 - c_{s+1-k}$ \& $b_k = b_{s+1-k}$}\\
+Ordnung einer sym. QF ist \textbf{gerade}\\
+\mbox{\textbf{Lagrange}: $L_{s+1-k}(x) = \underset{j=1, j \neq k}{\prod^s} \frac{x - c_{s+1 - j}}{c_{s+1-k} - c_{s+1-j}}$}
+
+\subsection{QF mit erhöhter Ordnung}
+Ges: QF mit Ordnung $p = s + m$, $m \geq 1$\\
+\textbf{Ordnung}: $s+m$ genau dann, wenn $\int_0^1M(x)g(x)dx = 0$ für g mit Grad $\leq m-1$, aber nicht mit Grad $m$\\
+\textbf{Skalarprodukt}: $\langle f , g \rangle = \int_0^1f(x)g(x)dx$\\
+$\rightarrow M(x)$ steht orthogonal zum Raum der \mbox{Poly. mit Grad $\leq m -1$ bzgl. des SKP}\\
+\textbf{max. Ordnung einer QF}: $2s$, da  $\langle M , M \rangle = \int_0^1 M(x)^2dx > 0$\\
+\textbf{Gauß}: Es ex. eindeutige QF der Ord. $2s$ durch $c_k = \frac{1}{2}(1 + \gamma_k)$, wobei $k = 1,...,s$ und $\gamma_1, ..., \gamma_s$ NS des Legendre-Poly.
+\textbf{Beispiel}: Sei $s = 2$, es gilt Legendre-Poly. $P_2(x) = \frac{3}{2}x^2 - \frac{1}{2}$ und somit $\gamma_{1,2} = \pm \frac{\sqrt{3}}{3}$, also $c_1 = \frac{1}{2}-\frac{\sqrt{3}}{6}$, $c_2 = \frac{1}{2}+\frac{\sqrt{3}}{6}$, $b_1 = b_2 = \frac{1}{2}$\\
+\mbox{$\rightarrow$ $\int_0^1f(x)dx \approx \frac{1}{2}f(\frac{1}{2}-\frac{\sqrt{3}}{6}) + f(\frac{1}{2}+\frac{\sqrt{3}}{6})$} als QF mit Ordnung 4 ($2s$). Ordnung 6:\\
+$I(f)_0^1\approx \frac{5 * f(\frac{1}{2} - \frac{\sqrt{15}}{10})}{18} + \frac{4}{9}f(\frac{1}{2}) + \frac{5 * f(\frac{1}{2} + \frac{\sqrt{15}}{10})}{18}$\\
+\textbf{Quadraturfehler}:  $g(\tau) := f(a + \tau(b-a))$\\
+$R(g) = \int_0^1 g(\tau)d\tau - \sum_{k=1}^s b_kg(c_k)$, linear\\
+Abschätzung: $R(g) = (\frac{b-a}{N})^2 (b-a) \frac{f^{(2)}(\xi)}{12}$
